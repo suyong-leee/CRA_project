@@ -1,16 +1,20 @@
-
 #pragma once
+#include <stdio.h>
+#include <string>
+#include <stdlib.h>
+using namespace std;
 
-enum QuestionType
+enum eQuestionType
 {
     CarType_Q,
     Engine_Q,
     BrakeSystem_Q,
     SteeringSystem_Q,
     Run_Test,
+    NumOption = Run_Test
 };
 
-enum CarType
+enum eCarType
 {
     SEDAN = 1,
     SUV,
@@ -18,7 +22,7 @@ enum CarType
     Num_CarType
 };
 
-enum Engine
+enum eEngine
 {
     GM = 1,
     TOYOTA,
@@ -27,7 +31,7 @@ enum Engine
     Num_Engine
 };
 
-enum BrakeSystem
+enum eBrakeSystem
 {
     MANDO = 1,
     CONTINENTAL,
@@ -35,15 +39,42 @@ enum BrakeSystem
     Num_BrakeSystem
 };
 
-enum SteeringSystem
+enum eSteeringSystem
 {
     BOSCH_S = 1,
     MOBIS,
     Num_SteeringSystem
 };
 
-enum RunTest
+enum eRunTest
 {
     RunCar = 1,
     CarTest
+};
+
+enum eErrorCode
+{
+    NoError,
+    Error1,
+    Error2,
+    Error3,
+    Error4,
+    Error5
+};
+
+class carOption
+{
+public:
+    void setOption(int option);
+    int getOption();
+    virtual string returnOption() = 0;
+    virtual bool checkValidInput(int input) = 0;
+#ifndef _DEBUG
+    virtual void printQuestion() = 0;
+#endif
+
+protected:
+    virtual void printSelectedOption() = 0;
+
+    int numOption = 0;
 };
