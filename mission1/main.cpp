@@ -56,59 +56,142 @@ void delay(int ms)
     }
 }
 
+int main()
+{
+    char inputData[100];
+    int step = CarType_Q;
+
+    while (1)
+    {
+        printSelectQuestion(step);
+        getInput(inputData);
+
+        if (!strcmp(inputData, "exit"))
+        {
+            printf("바이바이\n");
+            break;
+        }
+
+        char* checkNumber;
+        int answer = strtol(inputData, &checkNumber, 10);
+
+        if (isNumber(checkNumber) == false) continue;
+
+        if (checkValidInput(step, answer) == false) continue;
+
+        if (isOnlyChangeStep(answer, step) == true) continue;
+
+
+        if (step == Run_Test)
+        {
+            if (answer == 1)
+            {
+                runProducedCar();
+            }
+            else if (answer == 2)
+            {
+                printf("Test...\n");
+                delay(1500);
+                testProducedCar();
+            }
+            delay(2000);
+        }
+        else
+        {
+            if (step == CarType_Q)
+            {
+                selectCarType(answer);
+            }
+            else if (step == Engine_Q)
+            {
+                selectEngine(answer);
+            }
+            else if (step == BrakeSystem_Q)
+            {
+                selectBrakeSystem(answer);
+            }
+            else if (step == SteeringSystem_Q)
+            {
+                selectSteeringSystem(answer);
+            }
+            delay(800);
+            step++;
+        }
+    }
+}
+
+
+void printCarTypeQuestion()
+{
+    printf("        ______________\n");
+    printf("       /|            | \n");
+    printf("  ____/_|_____________|____\n");
+    printf(" |                      O  |\n");
+    printf(" '-(@)----------------(@)--'\n");
+    printf("===============================\n");
+    printf("어떤 차량 타입을 선택할까요?\n");
+    printf("1. Sedan\n");
+    printf("2. SUV\n");
+    printf("3. Truck\n");
+}
+
+void printEngineQuestion()
+{
+    printf("어떤 엔진을 탑재할까요?\n");
+    printf("0. 뒤로가기\n");
+    printf("1. GM\n");
+    printf("2. TOYOTA\n");
+    printf("3. WIA\n");
+    printf("4. 고장난 엔진\n");
+}
+
+void printBrakeSystemQuestion()
+{
+    printf("어떤 제동장치를 선택할까요?\n");
+    printf("0. 뒤로가기\n");
+    printf("1. MANDO\n");
+    printf("2. CONTINENTAL\n");
+    printf("3. BOSCH\n");
+}
+
+void printSteeringSystemQuestion()
+{
+    printf("어떤 조향장치를 선택할까요?\n");
+    printf("0. 뒤로가기\n");
+    printf("1. BOSCH\n");
+    printf("2. MOBIS\n");
+}
+
+void printRunTestQuestion()
+{
+    printf("멋진 차량이 완성되었습니다.\n");
+    printf("어떤 동작을 할까요?\n");
+    printf("0. 처음 화면으로 돌아가기\n");
+    printf("1. RUN\n");
+    printf("2. Test\n");
+}
 void printSelectQuestion(int step)
 {
-
+    printf(CLEAR_SCREEN);
     if (step == CarType_Q)
     {
-        printf(CLEAR_SCREEN);
-
-        printf("        ______________\n");
-        printf("       /|            | \n");
-        printf("  ____/_|_____________|____\n");
-        printf(" |                      O  |\n");
-        printf(" '-(@)----------------(@)--'\n");
-        printf("===============================\n");
-        printf("어떤 차량 타입을 선택할까요?\n");
-        printf("1. Sedan\n");
-        printf("2. SUV\n");
-        printf("3. Truck\n");
+        printCarTypeQuestion();
     }
     else if (step == Engine_Q)
     {
-        printf(CLEAR_SCREEN);
-        printf("어떤 엔진을 탑재할까요?\n");
-        printf("0. 뒤로가기\n");
-        printf("1. GM\n");
-        printf("2. TOYOTA\n");
-        printf("3. WIA\n");
-        printf("4. 고장난 엔진\n");
+        printEngineQuestion();
     }
     else if (step == BrakeSystem_Q)
     {
-        printf(CLEAR_SCREEN);
-        printf("어떤 제동장치를 선택할까요?\n");
-        printf("0. 뒤로가기\n");
-        printf("1. MANDO\n");
-        printf("2. CONTINENTAL\n");
-        printf("3. BOSCH\n");
+        printBrakeSystemQuestion();
     }
     else if (step == SteeringSystem_Q)
     {
-        printf(CLEAR_SCREEN);
-        printf("어떤 조향장치를 선택할까요?\n");
-        printf("0. 뒤로가기\n");
-        printf("1. BOSCH\n");
-        printf("2. MOBIS\n");
+        printSteeringSystemQuestion();
     }
     else if (step == Run_Test)
     {
-        printf(CLEAR_SCREEN);
-        printf("멋진 차량이 완성되었습니다.\n");
-        printf("어떤 동작을 할까요?\n");
-        printf("0. 처음 화면으로 돌아가기\n");
-        printf("1. RUN\n");
-        printf("2. Test\n");
+        printRunTestQuestion();
     }
     printf("===============================\n");
 
@@ -195,72 +278,6 @@ bool isOnlyChangeStep(int answer, int& step)
     }
     return false;
 }
-
-int main()
-{
-    char inputData[100];
-    int step = CarType_Q;
-
-    while (1)
-    {
-        printSelectQuestion(step);
-        getInput(inputData);
-
-        if (!strcmp(inputData, "exit"))
-        {
-            printf("바이바이\n");
-            break;
-        }
-
-        char* checkNumber;
-        int answer = strtol(inputData, &checkNumber, 10);
-
-        if (isNumber(checkNumber) == false) continue;
-
-        if (checkValidInput(step, answer) == false) continue;
-
-        if (isOnlyChangeStep(answer, step) == true) continue;
-
-
-        if (step == Run_Test)
-        {
-            if (answer == 1)
-            {
-                runProducedCar();
-            }
-            else if (answer == 2)
-            {
-                printf("Test...\n");
-                delay(1500);
-                testProducedCar();
-            }
-            delay(2000);
-        }
-        else
-        {
-            if (step == CarType_Q)
-            {
-                selectCarType(answer);
-            }
-            else if (step == Engine_Q)
-            {
-                selectEngine(answer);
-            }
-            else if (step == BrakeSystem_Q)
-            {
-                selectBrakeSystem(answer);
-            }
-            else if (step == SteeringSystem_Q)
-            {
-                selectSteeringSystem(answer);
-            }
-            delay(800);
-            step++;
-        }
-    }
-}
-
-
 
 void selectCarType(int answer)
 {
